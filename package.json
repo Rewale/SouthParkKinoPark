@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@react-native-community/slider": "4.2.4",
+    "beautiful-dom": "^1.0.9",
     "expo": "~47.0.8",
     "expo-av": "~13.0.2",
     "expo-fullscreen-video-player": "^1.0.2",

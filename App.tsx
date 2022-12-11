@@ -1,10 +1,11 @@
-import {Dimensions, StyleSheet, View} from 'react-native';
+import {Dimensions, StyleSheet, Text, View} from 'react-native';
 import VideoPlayer from 'expo-video-player'
 import {ResizeMode} from "expo-av";
 import React, {useState} from "react";
 import * as ScreenOrientation from 'expo-screen-orientation';
 import SeriesList from "./components/SeriesList";
 import {setStatusBarHidden} from 'expo-status-bar'
+import ParseHTML from "./services/parser";
 
 
 export default function App() {
@@ -49,6 +50,7 @@ export default function App() {
         slider={{style: styles.controls}}
 
         style={{width: width, height: height}}/>
+      <Text>{ParseHTML()}</Text>
       <SeriesList onClick={item => setUrl(item.url)}/>
     </View>
   )
