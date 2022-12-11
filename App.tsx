@@ -1,13 +1,21 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet } from 'react-native';
+import VideoPlayer from 'expo-video-player'
+import {ResizeMode} from "expo-av";
+
+
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+      <VideoPlayer
+          videoProps={{
+            resizeMode: ResizeMode.CONTAIN,
+            source: {
+              uri: 'https://serv1.freehat.cc/cdn_oilsnctw/sp/907/907_mtv.m3u8',
+            },
+
+          }}
+
+      />);
 }
 
 const styles = StyleSheet.create({
