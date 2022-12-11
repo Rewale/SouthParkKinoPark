@@ -3,31 +3,30 @@ import VideoPlayer from 'expo-video-player'
 import {ResizeMode} from "expo-av";
 import React, {useState} from "react";
 import * as ScreenOrientation from 'expo-screen-orientation';
-import {StatusBar} from "expo-status-bar";
+import SeriesList from "./components/SeriesList";
 
 
 export default function App() {
   const [width, setWidth] = useState<number>(Dimensions.get('window').width)
   const [height, setHeight] = useState<number>(300)
   const [inFullscreen, setInFullscreen] = useState<boolean>(false)
-
+  const [url, setUrl] = useState<string>("https://serv1.freehat.cc/cdn_oilsnctw/sp/906/906_mtv.m3u8")
 
   return (
     <View style={styles.container}>
       <VideoPlayer
         videoProps={{
-          resizeMode: ResizeMode.STRETCH,
+          resizeMode: ResizeMode.COVER,
           source: {
-            uri: 'https://serv1.freehat.cc/cdn_oilsnctw/sp/907/907_mtv.m3u8',
+            uri: url,
           },
-          useNativeControls: true
         }}
         fullscreen={{
           enterFullscreen: () => {
             console.log("Enter full screen")
             ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE);
-            setWidth(Dimensions.get('window').height);
-            setHeight(Dimensions.get('window').width - 10);
+            setWidth(Dimensions.get('window').height + 16);
+            setHeight(Dimensions.get('window').width - 16);
             setInFullscreen(true)
           },
           exitFullscreen: () => {
@@ -40,6 +39,7 @@ export default function App() {
           inFullscreen: inFullscreen
         }}
         style={{width: width, height: height}}/>
+      <SeriesList onClick={item => setUrl(item.url)}/>
     </View>
   )
 }
