@@ -1,9 +1,10 @@
-import {Dimensions,  StyleSheet, View} from 'react-native';
+import {Dimensions, StyleSheet, View} from 'react-native';
 import VideoPlayer from 'expo-video-player'
 import {ResizeMode} from "expo-av";
 import React, {useState} from "react";
 import * as ScreenOrientation from 'expo-screen-orientation';
 import SeriesList from "./components/SeriesList";
+import {setStatusBarHidden} from 'expo-status-bar'
 
 
 export default function App() {
@@ -15,29 +16,38 @@ export default function App() {
   return (
     <View style={styles.container}>
       <VideoPlayer
+        defaultControlsVisible={false}
         videoProps={{
           resizeMode: ResizeMode.COVER,
           source: {
             uri: url,
           },
+          useNativeControls: false,
+          usePoster: true,
         }}
         fullscreen={{
-          enterFullscreen: () => {
-            console.log("Enter full screen")
-            ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE);
+          enterFullscreen: async () => {
+            setStatusBarHidden(true, 'fade')
+            await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE);
             setWidth(Dimensions.get('window').height + 16);
-            setHeight(Dimensions.get('window').width - 16);
+            setHeight(Dimensions.get('window').width);
             setInFullscreen(true)
           },
-          exitFullscreen: () => {
-            console.log("Exit full screen")
-            ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT);
+          exitFullscreen: async () => {
+            setStatusBarHidden(false, 'fade')
+            await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.DEFAULT);
             setWidth(Dimensions.get('window').width);
             setHeight(300);
             setInFullscreen(false)
           },
-          inFullscreen: inFullscreen
+          inFullscreen: inFullscreen,
         }}
+        icon={{
+          style: styles.controls
+        }}
+        textStyle={styles.controls}
+        slider={{style: styles.controls}}
+
         style={{width: width, height: height}}/>
       <SeriesList onClick={item => setUrl(item.url)}/>
     </View>
@@ -47,9 +57,13 @@ export default function App() {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     backgroundColor: '#fff',
     justifyContent: 'flex-start',
     alignItems: "center",
-    borderRadius: 5
+    overflow: "scroll",
   },
+  controls:{
+    marginBottom: 10
+  }
 });

@@ -20,7 +20,7 @@ export default function SeriesList(props: ISeriesListProps) {
       season: 9
     }
   ])
-
+  // Превью /upload/iblock/2c8/episode911_big.jpg
   return (
     <View style={styles.container}>
       <ScrollView>
