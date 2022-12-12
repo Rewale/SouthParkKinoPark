@@ -1,22 +1,25 @@
-import BeautifulDom from "beautiful-dom";
+import parse from "node-html-parser";
 
-export default function ParseHTML(){
-  const document = `
-<p class="paragraph highlighted-text" >
-  My name is <b> Ajah, C.S. </b> and I am a <span class="work"> software developer </span>
-</p>
-<div class = "container" id="container" >
- <b> What is the name of this module </b>
- <p> What is the name of this libray </p>
- <a class="myWebsite" href="https://www.ajah.xyz" > My website </a>
-</div>
-<form>
-  <label for="name"> What's your name? </label>
-  <input type="text" id="name" name="name" />
-</form>
-`;
-  const dom = new BeautifulDom(document);
-  const text =  dom.getElementsByTagName("b")[0].textContent
-  console.log("HTML parser says: ", text);
-  return text
+
+export default async function ParseSeasons(): Promise<SeasonModel[]> {
+
+  const url = "https://sp.freehat.cc/"
+  const response = await fetch(url);
+  const html = await response.text()
+
+  const root = parse(html)
+  const seasons_li = root.querySelectorAll("#serial-ep > li")
+
+  return seasons_li.map((value, index, array) => {
+
+    const num = Number(value.textContent)
+    const url = value.getElementsByTagName('a')[0].getAttribute('href') || ""
+
+    const episode: SeasonModel = {
+      num: num,
+      url: url
+    }
+    return episode
+
+  })
 }
