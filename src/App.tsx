@@ -6,6 +6,8 @@ import * as ScreenOrientation from 'expo-screen-orientation';
 import SeriesList from "./components/SeriesList";
 import {setStatusBarHidden} from 'expo-status-bar'
 import ParseHTML from "./services/parser";
+import {Provider} from "react-redux";
+import {store} from "./state";
 
 
 export default function App() {
@@ -15,43 +17,45 @@ export default function App() {
   const [url, setUrl] = useState<string>("https://serv1.freehat.cc/cdn_oilsnctw/sp/906/906_mtv.m3u8")
 
   return (
-    <View style={styles.container}>
-      <VideoPlayer
-        defaultControlsVisible={false}
-        videoProps={{
-          resizeMode: ResizeMode.COVER,
-          source: {
-            uri: url,
-          },
-          useNativeControls: false,
-          usePoster: true,
-        }}
-        fullscreen={{
-          enterFullscreen: async () => {
-            setStatusBarHidden(true, 'fade')
-            await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE);
-            setWidth(Dimensions.get('window').height + 16);
-            setHeight(Dimensions.get('window').width);
-            setInFullscreen(true)
-          },
-          exitFullscreen: async () => {
-            setStatusBarHidden(false, 'fade')
-            await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.DEFAULT);
-            setWidth(Dimensions.get('window').width);
-            setHeight(300);
-            setInFullscreen(false)
-          },
-          inFullscreen: inFullscreen,
-        }}
-        icon={{
-          style: styles.controls
-        }}
-        textStyle={styles.controls}
-        slider={{style: styles.controls}}
+    <Provider store={store}>
+      <View style={styles.container}>
+        <VideoPlayer
+          defaultControlsVisible={false}
+          videoProps={{
+            resizeMode: ResizeMode.COVER,
+            source: {
+              uri: url,
+            },
+            useNativeControls: false,
+            usePoster: true,
+          }}
+          fullscreen={{
+            enterFullscreen: async () => {
+              setStatusBarHidden(true, 'fade')
+              await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE);
+              setWidth(Dimensions.get('window').height + 16);
+              setHeight(Dimensions.get('window').width);
+              setInFullscreen(true)
+            },
+            exitFullscreen: async () => {
+              setStatusBarHidden(false, 'fade')
+              await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.DEFAULT);
+              setWidth(Dimensions.get('window').width);
+              setHeight(300);
+              setInFullscreen(false)
+            },
+            inFullscreen: inFullscreen,
+          }}
+          icon={{
+            style: styles.controls
+          }}
+          textStyle={styles.controls}
+          slider={{style: styles.controls}}
 
-        style={{width: width, height: height}}/>
-      <SeriesList onClick={item => setUrl(item.url)}/>
-    </View>
+          style={{width: width, height: height}}/>
+        <SeriesList onClick={item => setUrl(item.url)}/>
+      </View>
+    </Provider>
   )
 }
 
@@ -64,7 +68,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     overflow: "scroll",
   },
-  controls:{
+  controls: {
     marginBottom: 10
   }
 });

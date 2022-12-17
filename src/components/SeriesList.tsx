@@ -2,12 +2,20 @@ import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import {useEffect, useState} from "react";
 import ParseSeasons from "../services/parser";
 import DropDownPicker, {ItemType, ValueType} from "react-native-dropdown-picker";
+import {useDispatch, useSelector} from "react-redux";
+import {useTypedSelector} from "../hooks/useTypedSelector";
+import {fetchSeasons} from "../state/action-creators/season";
 
 interface ISeriesListProps {
   onClick: (item: SeriesModel) => void
 }
 
 export default function SeriesList(props: ISeriesListProps) {
+  const {seasons, error, loading} = useTypedSelector(state => state.season)
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(fetchSeasons())
+  }, [])
   const [series, setSeries] = useState<SeriesModel[]>([
     {
       episode: 7,
@@ -24,19 +32,26 @@ export default function SeriesList(props: ISeriesListProps) {
       preview_url: ""
     }
   ])
-  const [seasons, setSeasons] = useState<SeasonModel[]>([])
-  ParseSeasons().then((value)=>{
-    setSeasons(value)
-  })
-
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
-  const [items, setItems] = useState<ItemType<ValueType>[]>(seasons.map((value) =>{
+  const [items, setItems] = useState<ItemType<ValueType>[]>(seasons.map((value) => {
     return {label: value.num.toString(), value: value.num}
   }));
 
-  const setSeason = (seasonNum: number) =>{
-    const season = seasons.find(value => value.num == seasonNum)
+  if (loading) {
+    return (
+      <View>
+        <Text>Загрузка сезонов</Text>
+      </View>
+    )
+  }
+
+  if (error) {
+    return (
+      <View>
+        <Text>{error}</Text>
+      </View>
+    )
   }
 
   return (
