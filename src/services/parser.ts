@@ -20,16 +20,19 @@ export default async function ParseSeasons(): Promise<SeasonModel[]> {
 
   })
 }
-export async function ParseSeries(seasonUrl: string): Promise<SeriesModel[] | undefined> {
+export async function ParseSeries(seasonUrl: string): Promise<SeriesModel[]> {
   const response = await fetch(seasonUrl);
   const html = await response.text()
   const root = parse(html)
-  const series_table = root.querySelector(".ep_blocks_table")?.querySelectorAll('.ep_block_center')
+  const series_table_block = root.querySelector(".ep_blocks_table")
+  if (series_table_block === null)
+    return []
+  const series_table = series_table_block.querySelectorAll('.ep_block_center')
 
-  return series_table?.map((value) => {
-    const url = value.getElementsByTagName('a')[0].getAttribute('href')
+  return series_table.map((value) => {
+    const url = value.getElementsByTagName('a')[0].getAttribute('href') || ""
     const imageUrl = value.getElementsByTagName('img')[0].getAttribute('src')
-    const name = value.querySelector('.episode-name')?.textContent.trim()
+    const name = value.querySelector('.episode-name')?.textContent.trim() || ""
     const episode_num = Number(value.querySelector('.episode-num')
       ?.getElementsByTagName('span')[1].textContent)
     const season_num = Number(value.querySelector('.episode-num')
@@ -44,4 +47,8 @@ export async function ParseSeries(seasonUrl: string): Promise<SeriesModel[] | un
     }
     return series
   })
+}
+
+export async function ParseM3U8Url(episodeUrl: string){
+
 }

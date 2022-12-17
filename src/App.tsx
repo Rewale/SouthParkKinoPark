@@ -50,7 +50,6 @@ export default function App() {
         slider={{style: styles.controls}}
 
         style={{width: width, height: height}}/>
-      <Text>{ParseHTML()}</Text>
       <SeriesList onClick={item => setUrl(item.url)}/>
     </View>
   )
