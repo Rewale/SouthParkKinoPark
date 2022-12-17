@@ -11,7 +11,8 @@
   },
   "dependencies": {
     "@react-native-community/slider": "4.2.4",
-    "@reduxjs/toolkit": "^1.9.1",
+    "@types/react-redux": "^7.1.24",
+    "axios": "^1.2.1",
     "beautiful-dom": "^1.0.9",
     "expo": "~47.0.8",
     "expo-av": "~13.0.2",
@@ -27,7 +28,8 @@
     "react-native-dropdown-picker": "^5.4.3",
     "react-native-video": "^5.2.1",
     "react-native-web": "~0.18.9",
-    "redux": "^4.2.0"
+    "redux": "^4.2.0",
+    "redux-thunk": "^2.4.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
