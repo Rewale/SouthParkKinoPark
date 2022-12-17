@@ -1,60 +1,21 @@
-import {Dimensions, StyleSheet, Text, View} from 'react-native';
-import { registerRootComponent } from 'expo';
-import VideoPlayer from 'expo-video-player'
-import {ResizeMode} from "expo-av";
-import React, {useState} from "react";
-import * as ScreenOrientation from 'expo-screen-orientation';
-import SeriesList from "./src/components/SeriesList";
-import {setStatusBarHidden} from 'expo-status-bar'
-import ParseHTML from "./src/services/parser";
+import {StyleSheet, View} from 'react-native';
+import {registerRootComponent} from 'expo';
+import React from "react";
+import SeasonsList from "./src/components/SeasonsList";
 import {Provider} from "react-redux";
 import {store} from "./src/state";
+import EpisodesList from "./src/components/EpisodesList";
+import Player from "./src/components/Player";
 
 
 export default function App() {
-  const [width, setWidth] = useState<number>(Dimensions.get('window').width)
-  const [height, setHeight] = useState<number>(300)
-  const [inFullscreen, setInFullscreen] = useState<boolean>(false)
-  const [url, setUrl] = useState<string>("https://serv1.freehat.cc/cdn_oilsnctw/sp/906/906_mtv.m3u8")
 
   return (
     <Provider store={store}>
       <View style={styles.container}>
-        <VideoPlayer
-          defaultControlsVisible={false}
-          videoProps={{
-            resizeMode: ResizeMode.COVER,
-            source: {
-              uri: url,
-            },
-            useNativeControls: false,
-            usePoster: true,
-          }}
-          fullscreen={{
-            enterFullscreen: async () => {
-              setStatusBarHidden(true, 'fade')
-              await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE);
-              setWidth(Dimensions.get('window').height + 16);
-              setHeight(Dimensions.get('window').width);
-              setInFullscreen(true)
-            },
-            exitFullscreen: async () => {
-              setStatusBarHidden(false, 'fade')
-              await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.DEFAULT);
-              setWidth(Dimensions.get('window').width);
-              setHeight(300);
-              setInFullscreen(false)
-            },
-            inFullscreen: inFullscreen,
-          }}
-          icon={{
-            style: styles.controls
-          }}
-          textStyle={styles.controls}
-          slider={{style: styles.controls}}
-
-          style={{width: width, height: height}}/>
-        <SeriesList onClick={item => setUrl(item.url)}/>
+        <Player/>
+        <SeasonsList/>
+        <EpisodesList/>
       </View>
     </Provider>
   )
