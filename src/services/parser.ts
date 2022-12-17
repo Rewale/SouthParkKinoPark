@@ -20,7 +20,8 @@ export default async function ParseSeasons(): Promise<SeasonModel[]> {
 
   })
 }
-export async function ParseSeries(seasonUrl: string): Promise<SeriesModel[]> {
+
+export async function ParseSeries(seasonUrl: string): Promise<EpisodeModel[]> {
   const response = await fetch(seasonUrl);
   const html = await response.text()
   const root = parse(html)
@@ -38,17 +39,28 @@ export async function ParseSeries(seasonUrl: string): Promise<SeriesModel[]> {
     const season_num = Number(value.querySelector('.episode-num')
       ?.getElementsByTagName('span')[0].textContent)
 
-    const series: SeriesModel = {
+    const series: EpisodeModel = {
       season: season_num,
       episode: episode_num,
-      url: url,
+      html_url: url,
       name: name,
-      preview_url: "https://sp.freehat.cc" + imageUrl
+      preview_url: "https://sp.freehat.cc" + imageUrl,
+      video_url: undefined,
     }
     return series
   })
 }
 
-export async function ParseM3U8Url(episodeUrl: string){
-
+// Парсит url самого видео в формате mp4 или m3u8
+export async function ParseVideoUrl(episodeHtmlUrl: string): Promise<string> {
+  const response = await fetch(episodeHtmlUrl)
+  const html = await response.text()
+  const root = parse(html)
+  const scriptJsonText = root.querySelector('script[type="application/ld+json"]')?.textContent;
+  console.log(scriptJsonText);
+  if (scriptJsonText == undefined) {
+    throw new Error("Не удалось спарсить m3u8 файл")
+  }
+  const json = JSON.parse(scriptJsonText)
+  return json['contentUrl']
 }

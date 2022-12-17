@@ -1,4 +1,4 @@
-import ParseSeasons, {ParseSeries} from "../services/parser";
+import ParseSeasons, {ParseVideoUrl, ParseSeries} from "../services/parser";
 
 test('parse all seasons', async () => {
   const seasons = await ParseSeasons()
@@ -10,12 +10,26 @@ test('parse all seasons', async () => {
 test('parse all series', async () => {
   const url = 'https://sp.freehat.cc/episode/season-1/'
   const episodes = await ParseSeries(url)
-  expect(episodes.length).toBe(13)
+  expect(episodes.length).toBeGreaterThan(0)
 
-  const firstEpisode = episodes[0]
-  expect(firstEpisode.name).toBe("Мамаша Картмана — грязная шлюха")
-  expect(firstEpisode.episode).toBe(13)
-  expect(firstEpisode.season).toBe(1)
-  expect(firstEpisode.preview_url).toBe("https://sp.freehat.cc/upload/iblock/79f/season113_big.jpg")
-  expect(firstEpisode.url).toBe("https://sp.freehat.cc/episode/113/")
+  for (const episode of episodes) {
+    expect(episode.name).not.toBeNull()
+    expect(episode.episode).toBeGreaterThan(0)
+    expect(episode.season).toBeGreaterThan(0)
+    expect(episode.preview_url).toMatch(new RegExp(".jpg$"))
+    expect(episode.html_url).not.toBeNull()
+  }
 });
+
+test('parse m3u8 url', async () =>{
+
+  const url = "https://sp.freehat.cc/episode/316/"
+  const m3u8Url = await ParseVideoUrl(url)
+  expect(m3u8Url).toMatch(new RegExp(".m3u8$"))
+})
+test('parse mp4 url', async () =>{
+
+  const url = "https://sp.freehat.cc/episode/101/"
+  const m3u8Url = await ParseVideoUrl(url)
+  expect(m3u8Url).toMatch(new RegExp(".mp4$"))
+})
