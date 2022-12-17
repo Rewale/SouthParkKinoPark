@@ -1,7 +1,7 @@
 {
   "name": "sp",
   "version": "1.0.0",
-  "main": "node_modules/expo/AppEntry.js",
+  "main": "App.tsx",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@react-native-community/slider": "4.2.4",
+    "@reduxjs/toolkit": "^1.9.1",
     "@types/react-redux": "^7.1.24",
     "axios": "^1.2.1",
     "beautiful-dom": "^1.0.9",
@@ -28,8 +29,10 @@
     "react-native-dropdown-picker": "^5.4.3",
     "react-native-video": "^5.2.1",
     "react-native-web": "~0.18.9",
-    "redux": "^4.2.0",
-    "redux-thunk": "^2.4.2"
+    "react-redux": "^7.2.2",
+    "redux": "^4.0.5",
+    "redux-thunk": "^2.3.0",
+    "ts-log": "^2.2.5"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

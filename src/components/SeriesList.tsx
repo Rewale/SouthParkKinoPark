@@ -1,7 +1,7 @@
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import {useEffect, useState} from "react";
 import ParseSeasons from "../services/parser";
-import DropDownPicker, {ItemType, ValueType} from "react-native-dropdown-picker";
+import DropDownPicker, {DropDownPickerProps, ItemType, ValueType} from "react-native-dropdown-picker";
 import {useDispatch, useSelector} from "react-redux";
 import {useTypedSelector} from "../hooks/useTypedSelector";
 import {fetchSeasons} from "../state/action-creators/season";
@@ -12,6 +12,9 @@ interface ISeriesListProps {
 
 export default function SeriesList(props: ISeriesListProps) {
   const {seasons, error, loading} = useTypedSelector(state => state.season)
+
+  const [open, setOpen] = useState(false);
+  const [season, setSeason] = useState(null);
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(fetchSeasons())
@@ -32,11 +35,7 @@ export default function SeriesList(props: ISeriesListProps) {
       preview_url: ""
     }
   ])
-  const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(null);
-  const [items, setItems] = useState<ItemType<ValueType>[]>(seasons.map((value) => {
-    return {label: value.num.toString(), value: value.num}
-  }));
+
 
   if (loading) {
     return (
@@ -54,9 +53,14 @@ export default function SeriesList(props: ISeriesListProps) {
     )
   }
 
+  const changeSeason = (value: any) =>{
+    console.log("Season value: ", value);
+  }
   return (
     <View style={styles.container}>
-      <DropDownPicker setValue={setValue} value={value} items={items} open={open} setOpen={setOpen}/>
+      <DropDownPicker setValue={changeSeason} value={season} items={seasons.map((value) => {
+        return {label: value.num == 0 ? "Other" : value.num.toString(), value: value.num}
+      })} open={open} setOpen={setOpen}/>
       <ScrollView>
         {series.map((item) => {
           return (

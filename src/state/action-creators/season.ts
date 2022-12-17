@@ -1,5 +1,6 @@
 import {Dispatch} from "redux";
 import ParseSeasons from "../../services/parser";
+import {SeasonsAction, SeasonsActionTypes} from "../../types/seasons";
 
 export const fetchSeasons = () => {
   return async (dispatch: Dispatch<SeasonsAction>) => {

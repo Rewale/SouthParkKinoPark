@@ -1,3 +1,5 @@
+import {SeasonsAction, SeasonsActionTypes, SeasonsState} from "../../types/seasons";
+
 const initialState: SeasonsState = {
   seasons: [],
   loading: false,

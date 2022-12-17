@@ -1,13 +1,14 @@
 import {Dimensions, StyleSheet, Text, View} from 'react-native';
+import { registerRootComponent } from 'expo';
 import VideoPlayer from 'expo-video-player'
 import {ResizeMode} from "expo-av";
 import React, {useState} from "react";
 import * as ScreenOrientation from 'expo-screen-orientation';
-import SeriesList from "./components/SeriesList";
+import SeriesList from "./src/components/SeriesList";
 import {setStatusBarHidden} from 'expo-status-bar'
-import ParseHTML from "./services/parser";
+import ParseHTML from "./src/services/parser";
 import {Provider} from "react-redux";
-import {store} from "./state";
+import {store} from "./src/state";
 
 
 export default function App() {
@@ -58,7 +59,7 @@ export default function App() {
     </Provider>
   )
 }
-
+registerRootComponent(App)
 
 const styles = StyleSheet.create({
   container: {
