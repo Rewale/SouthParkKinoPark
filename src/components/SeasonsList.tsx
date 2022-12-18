@@ -38,8 +38,8 @@ export default function SeasonsList() {
     setSeason(url)
   }
   return (
-    <DropDownPicker setValue={changeSeason} value={season} items={seasons.map((value) => {
-      return {label: value.num == 0 ? "Other" : value.num.toString(), value: value.url}
+    <DropDownPicker style={{borderRadius: 0}}  setValue={changeSeason} placeholder={"Выберите сезон"} value={season} items={seasons.map((value) => {
+      return {label: value.num == 0 ? "Другое" : "Сезон: " + value.num.toString(), value: value.url}
     })} open={open} setOpen={setOpen}/>
   )
 }
