@@ -32,7 +32,9 @@
     "react-redux": "^7.2.2",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
-    "ts-log": "^2.2.5"
+    "ts-log": "^2.2.5",
+    "expo-updates": "~0.15.6",
+    "expo-keep-awake": "~11.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

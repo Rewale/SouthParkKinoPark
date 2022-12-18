@@ -12,7 +12,8 @@
       "backgroundColor": "#ffffff"
     },
     "updates": {
-      "fallbackToCacheTimeout": 0
+      "fallbackToCacheTimeout": 0,
+      "url": "https://u.expo.dev/0a7db765-806e-461c-b06a-bc8a2d12e9e9"
     },
     "assetBundlePatterns": [
       "**/*"
@@ -24,13 +25,22 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.rewale.SP"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "androidNavigationBar": {
       "visible": "immersive"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "0a7db765-806e-461c-b06a-bc8a2d12e9e9"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "sdkVersion"
     }
   }
 }

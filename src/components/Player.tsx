@@ -5,9 +5,11 @@ import * as ScreenOrientation from "expo-screen-orientation";
 import {Dimensions, StyleSheet} from "react-native";
 import React, {useState} from "react";
 import {useTypedSelector} from "../hooks/useTypedSelector";
+import {useKeepAwake} from "expo-keep-awake";
 
 export default function Player() {
 
+  useKeepAwake();
   const [width, setWidth] = useState<number>(Dimensions.get('window').width)
   const [height, setHeight] = useState<number>(300)
   const [inFullscreen, setInFullscreen] = useState<boolean>(false)

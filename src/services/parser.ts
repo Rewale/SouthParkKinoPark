@@ -57,7 +57,6 @@ export async function ParseVideoUrl(episodeHtmlUrl: string): Promise<string> {
   const html = await response.text()
   const root = parse(html)
   const scriptJsonText = root.querySelector('script[type="application/ld+json"]')?.textContent;
-  console.log(scriptJsonText);
   if (scriptJsonText == undefined) {
     throw new Error("Не удалось спарсить m3u8 файл")
   }
