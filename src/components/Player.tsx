@@ -8,10 +8,10 @@ import {useTypedSelector} from "../hooks/useTypedSelector";
 import {useKeepAwake} from "expo-keep-awake";
 
 export default function Player() {
-
   useKeepAwake();
+  const verticalModeHeight = 250;
   const [width, setWidth] = useState<number>(Dimensions.get('window').width)
-  const [height, setHeight] = useState<number>(300)
+  const [height, setHeight] = useState<number>(verticalModeHeight)
   const [inFullscreen, setInFullscreen] = useState<boolean>(false)
   const {episode} = useTypedSelector(state => state.currentEpisode)
 
@@ -23,7 +23,7 @@ export default function Player() {
     <VideoPlayer
       defaultControlsVisible={false}
       videoProps={{
-        resizeMode: ResizeMode.CONTAIN,
+        resizeMode: ResizeMode.STRETCH,
 
         source: {
           uri: url
@@ -43,7 +43,7 @@ export default function Player() {
           setStatusBarHidden(false, 'fade')
           await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.DEFAULT);
           setWidth(Dimensions.get('window').width);
-          setHeight(300);
+          setHeight(verticalModeHeight);
           setInFullscreen(false)
         },
         inFullscreen: inFullscreen,
