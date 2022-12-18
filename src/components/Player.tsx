@@ -16,7 +16,6 @@ export default function Player() {
   const url = episode?.video_url == undefined ?
     "https://serv1.freehat.cc/cdn_oilsnctw/sp/907/907_mtv.m3u8" :
     episode.video_url
-  console.log("Episode from state: ", episode);
 
   return (
     <VideoPlayer
