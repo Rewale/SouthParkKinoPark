@@ -22,7 +22,7 @@ export default function Player() {
     <VideoPlayer
       defaultControlsVisible={false}
       videoProps={{
-        resizeMode: ResizeMode.COVER,
+        resizeMode: ResizeMode.CONTAIN,
 
         source: {
           uri: url
