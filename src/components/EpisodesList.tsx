@@ -1,4 +1,4 @@
-import {Image, ImageBackground, ScrollView, StyleSheet, Text, View} from "react-native";
+import {Dimensions, Image, ImageBackground, ScrollView, StyleSheet, Text, View} from "react-native";
 import {useDispatch, useSelector} from "react-redux";
 import {useTypedSelector} from "../hooks/useTypedSelector";
 import {setCurrentEpisode} from "../state/action-creators/episode";
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     marginTop: 24,
     marginHorizontal: 5,
     backgroundColor: 'pink',
-    fontSize: 24
+    fontSize: 24,
   },
   info: {
     fontSize: 24,
@@ -50,7 +50,8 @@ const styles = StyleSheet.create({
   },
   image: {
     flex: 1,
-    justifyContent: "center"
+    justifyContent: "center",
+    width: Dimensions.get('window').width * 0.95
   },
   text: {
     color: "white",
